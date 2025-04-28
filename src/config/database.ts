@@ -1,0 +1,25 @@
+import { Sequelize  } from "sequelize";
+import { initUserModel, User } from "../models/User";
+import { initMovieModel } from "../models/Movie";
+
+export const sequelize = new Sequelize({
+    dialect: "sqlite", 
+    storage: "data/database.sqlite",
+});
+ 
+initUserModel(sequelize);
+initMovieModel(sequelize);
+
+
+export async function syncDb(): Promise<void> {
+    try {
+        await sequelize.sync({force: true});
+        console.log("Database syncronized successfully");
+    }
+    catch (error) {
+        console.error("Error syncing database: ", error);
+    }
+}
+
+
+
