@@ -1,10 +1,10 @@
 import { Sequelize  } from "sequelize";
-import { initUserModel, User } from "../models/User";
+import { initUserModel } from "../models/User";
 import { initMovieModel } from "../models/Movie";
 
 export const sequelize = new Sequelize({
     dialect: "sqlite", 
-    storage: "data/database.sqlite",
+    storage: process.env.DB_PATH || "data/database.sqlite",
 });
  
 initUserModel(sequelize);
