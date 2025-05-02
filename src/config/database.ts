@@ -1,6 +1,7 @@
 import { Sequelize  } from "sequelize";
 import { initUserModel } from "../models/User";
 import { initMovieModel } from "../models/Movie";
+import { initHallModel } from "../models/Hall";
 
 export const sequelize = new Sequelize({
     dialect: "sqlite", 
@@ -9,7 +10,7 @@ export const sequelize = new Sequelize({
  
 initUserModel(sequelize);
 initMovieModel(sequelize);
-
+initHallModel(sequelize);
 
 export async function syncDb(): Promise<void> {
     try {
