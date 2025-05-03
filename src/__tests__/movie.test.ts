@@ -16,7 +16,6 @@ describe('Movies API', () => {
 		const createResponse = await request(app)
 			.post('/movies')
 			.send({
-				"id": 1,
     			"title": "Inception",
     			"description": "A mind-bending thriller",
     			"duration": 148,
