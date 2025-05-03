@@ -7,6 +7,7 @@ export interface UserAttributes {
     email: string;
     password: string;
     role: string;
+    createdAt: Date;
 }
 
 export class User 
@@ -17,6 +18,7 @@ export class User
     public email!: string;
     public password!: string;
     public role!: string;
+    public createdAt!: Date;
 
     public checkPassword(password: string): Promise<boolean> {
         return bcrypt.compare(password, this.password);
@@ -50,6 +52,11 @@ export function initUserModel(sequelize:Sequelize): void {
             role: {
                 type: DataTypes.STRING,
                 allowNull: false,
+            },
+            createdAt: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: DataTypes.NOW,
             },
         },
         {
