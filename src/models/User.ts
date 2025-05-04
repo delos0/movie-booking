@@ -1,4 +1,4 @@
-import { Model, DataTypes, Sequelize} from 'sequelize';
+import { Model, DataTypes, Sequelize, Optional} from 'sequelize';
 import bcrypt from 'bcrypt';
 
 
@@ -10,8 +10,12 @@ export interface UserAttributes {
     createdAt: Date;
 }
 
+export interface UserCreationAttributes 
+    extends Optional<UserAttributes, 'id' | 'createdAt'> {}
+
+
 export class User 
-    extends Model<UserAttributes> 
+    extends Model<UserAttributes, UserCreationAttributes> 
     implements UserAttributes 
 {
     public id!: number;
@@ -39,6 +43,7 @@ export function initUserModel(sequelize:Sequelize): void {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
+                autoIncrement: true,
             },
             email: {
                 type: DataTypes.STRING,
