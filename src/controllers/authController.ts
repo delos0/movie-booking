@@ -37,3 +37,34 @@ export const register = async (req: Request, res: Response) => {
         return res.status(400).json({error: err.message});
     }
 };
+
+export const login = async (req: Request, res: Response) => {
+    const { email, password } = req.body as {
+        email: string;
+        password: string; 
+    };
+
+    try {
+        const user = await User.findOne({ where: { email }});
+        if(!user) {
+            return res.status(400).json({error: 'Invalid credentials' });
+        }
+
+        const valid = await user.checkPassword(password);
+        if(!valid) {
+            return res.status(400).json({ error: 'Invalid credentials' });
+        }
+
+        const payload = { sub: user.id, role: user.role };
+        const options: SignOptions = { expiresIn: JWT_EXPIRES_IN, };
+        const token = jwt.sign(
+            payload,
+            JWT_SECRET,
+            options,
+        );
+
+        return res.json({ token });
+    } catch(err: any) {
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
